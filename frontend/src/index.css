@@ -1,0 +1,23 @@
+body {
+    font-size: 2rem;
+    text-align: center;
+}
+
+form {
+    display: inline-block;
+}
+
+h1 {
+    color: green;
+}
+
+#productInput {
+    width:50rem;
+    font-size:1rem;
+}
+
+/* #productInput[type="text"] {
+    font-size:50rem;
+} */
+
+
