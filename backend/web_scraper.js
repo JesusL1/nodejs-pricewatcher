@@ -4,18 +4,18 @@ const { JSDOM } = jsdom;
 
 const stores = {"93brand.com":"scrape_93Brand", "www.amazon.com": "scrape_Amazon", "bananarepublic.gap.com":"scrape_Bananarepublic", "www.microcenter.com":"scrape_Microcenter"}
 
-stores.scrape_Microcenter = (data) => {
-    console.log('microcenter running')
+stores.scrape_Microcenter = (productUrl, data) => {
+    console.log('scrape_Microcenter function')
     const dom = loadDoc(data)
     const productName = dom.title
     let productPrice = dom.getElementById('pricing').textContent.substring(1)
     productPrice = parseFloat(productPrice.replace(/,/g, ''))
     const productImg = dom.querySelectorAll('.productImageZoom')[0].getAttribute('src').replace('thumbnail', 'zoom') // gets a larger image
-    const productObject = {name: productName, price: productPrice, img: productImg}
+    const productObject = {url: productUrl, name: productName, price: productPrice, img: productImg}
     return productObject
 }
 
-stores.scrape_93Brand = (url) => {
+stores.scrape_93Brand = (productUrl, data) => {
     console.log('scrape_93Brand function')
 }
 
@@ -26,7 +26,7 @@ const selectParse = (url_link) => {
         if (url.hostname in stores) {
             const scrape_function = stores[url.hostname]
             console.log(scrape_function)
-            const product = stores[scrape_function](res.data)
+            const product = stores[scrape_function](url.href, res.data)
             return product
         }
     })
@@ -42,7 +42,6 @@ const loadDoc = (data) => {
     const dom = domPreParse.window.document
     return dom
 }
-
 
 
 module.exports = {stores, selectParse};

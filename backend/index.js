@@ -4,11 +4,8 @@ app.use(express.json())
 const cors = require('cors')
 app.use(cors())
 const webScraper = require('./web_scraper')
-const port = process.env.PORT || 3001
+app.use(express.static('build'))
 
-if (process.env.NODE_ENV !== 'production') {
-  require('dotenv').config();
-}
 
 app.get('/:url', (request, response) => {
   const product = webScraper.selectParse(request.params.url)
@@ -23,8 +20,9 @@ app.get('/:url', (request, response) => {
 })
 
 
-app.listen(port, () => {
-  console.log(`Server running on port http://localhost:${port}`)
+const PORT = process.env.PORT || 3001
+app.listen(PORT, () => {
+  console.log(`Server running on port http://localhost:${PORT}`)
 })
 
 const unknownEndpoint = (request, response) => {
