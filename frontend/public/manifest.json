@@ -1,6 +1,6 @@
 {
-  "short_name": "React App",
-  "name": "Create React App Sample",
+  "short_name": "PriceWatcher",
+  "name": "PriceWatcher Website",
   "icons": [
     {
       "src": "favicon.ico",
@@ -8,12 +8,27 @@
       "type": "image/x-icon"
     },
     {
-      "src": "logo192.png",
+      "src": "piggy-bank-16.png",
       "type": "image/png",
-      "sizes": "192x192"
+      "sizes": "16x16"
     },
     {
-      "src": "logo512.png",
+      "src": "piggy-bank-24.png",
+      "type": "image/png",
+      "sizes": "24x24"
+    },
+    {
+      "src": "piggy-bank-32.png",
+      "type": "image/png",
+      "sizes": "32x32"
+    },
+    {
+      "src": "piggy-bank-64.png",
+      "type": "image/png",
+      "sizes": "64x64"
+    },
+    {
+      "src": "piggy-bank-512.png",
       "type": "image/png",
       "sizes": "512x512"
     }

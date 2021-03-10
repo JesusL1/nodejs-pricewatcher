@@ -1,6 +1,7 @@
 import React, { useState } from 'react'
 import axios from 'axios'
 import SearchResult from './components/SearchResult'
+// import logo from '../public/piggy-bank-512.png'
 import { Button, Form, FormControl, Nav, Navbar, Spinner } from 'react-bootstrap'
 
 
@@ -23,7 +24,7 @@ const App = () => {
 
   const search = (event) => {
     event.preventDefault()
-    const request = axios.get(`http://localhost:3001/${encodeURIComponent(searchTerm)}`)
+    axios.get(`/${encodeURIComponent(searchTerm)}`)
       .then(res => {
           const p = res.data
           console.log('Product: ', p)
@@ -53,28 +54,20 @@ const App = () => {
 
   return (
     <div>
-      <Navbar bg="dark" variant="dark">
+      <Navbar id="navbar" bg="dark" variant="dark">
         <Nav className="mr-auto">
-          <Nav.Link href="#Login">Login</Nav.Link>
-          <Nav.Link href="#watchlist">Watchlist</Nav.Link>
-          <Nav.Link href="#account">Account</Nav.Link>
+          <Nav.Link className="link" href="#Login">Login</Nav.Link>
+          <Nav.Link className="link" href="#watchlist">Watchlist</Nav.Link>
+          <Nav.Link className="link" href="#account">Account</Nav.Link>
         </Nav>
+        <h1 className="ml4">PriceWatcher <img id="logo" src="piggy-bank-512.png" width="40px" height="40px" alt=""></img> </h1>
         <Form onSubmit={search} inline>
           <FormControl className="mr-sm-2" id="productInput" type="url" value={searchTerm} onChange={handleSearchChange} onFocus={handleFocus} placeholder="https://www.example.com/product-page"/>
           <Button variant="outline-info" type="submit">Search</Button>
         </Form>
       </Navbar>
-
       <LoadingSpinner/>
       <SearchResult product={{name: productName, price: productPrice, img: productImg }} success={success} /> 
-      {/* <h1 className="ml4">PriceWatcher</h1> */}
-      {/* <Form onSubmit={search}>
-        <Form.Group className="form-inline">
-          <Form.Control id="productInput" type="url" value={searchTerm} onChange={handleSearchChange} onFocus={handleFocus} placeholder="https://www.example.com/product-page" />
-          <Button variant="primary" type="submit">Search</Button>
-        </Form.Group>
-      </Form> */}
-      {/* <SearchResult product={{name: productName, price: productPrice, img: productImg }} /> */}
     </div>
   )
 }
