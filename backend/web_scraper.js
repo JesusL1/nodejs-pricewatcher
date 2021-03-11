@@ -17,6 +17,12 @@ stores.scrape_Microcenter = (productUrl, data) => {
 
 stores.scrape_93Brand = (productUrl, data) => {
     console.log('scrape_93Brand function')
+    const dom = loadDoc(data)
+    const productName = dom.title
+    const productPrice = dom.querySelector("meta[property='product:price:amount'").getAttribute('content')
+    const productImg = dom.getElementsByTagName("img")[2].src
+    const productObject = {url: productUrl, name: productName, price: productPrice, img: productImg}
+    return productObject
 }
 
 const selectParse = (url_link) => {
