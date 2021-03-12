@@ -1,5 +1,6 @@
 import React, { useState } from 'react'
 import axios from 'axios'
+import About from './components/About'
 import SearchResult from './components/SearchResult'
 import { Button, Form, FormControl, Nav, Navbar, Spinner } from 'react-bootstrap'
 
@@ -63,13 +64,14 @@ const App = () => {
           <Nav.Link className="link" href="#watchlist">Watchlist</Nav.Link>
         </Nav>
         <Form onSubmit={search} inline>
-          <FormControl className="mr-sm-2" id="productInput" type="url" value={searchTerm} onChange={handleSearchChange} onFocus={handleFocus} placeholder="https://www.example.com/product-page"/>
+          <FormControl className="mr-sm-2" id="productInput" type="url" value={searchTerm} onChange={handleSearchChange} onFocus={handleFocus} placeholder="https://www.example.com/product_page"/>
           <Button variant="outline-info" type="submit">Search</Button>
         </Form>
         </Navbar.Collapse>
       </Navbar>
       <LoadingSpinner/>
       <SearchResult product={{name: productName, price: productPrice, img: productImg }} success={success} /> 
+      <About/>
     </div>
   )
 }

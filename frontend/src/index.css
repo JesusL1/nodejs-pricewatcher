@@ -49,12 +49,13 @@ form {
 
 #product {
     position:relative;
-    height: 15rem;
+    height: 20rem;
     margin:auto;
     font-size:1.25rem;
     width:80rem;
     margin-bottom:2rem;
 }
+
 
 #product img {
     margin-right:50rem;
@@ -82,6 +83,29 @@ form {
 
 #about h1 {
     font-weight: bold;
-    font-size:2rem;
+    font-size:1.4rem;
 }
 
+#about p {
+    font-size:1.1rem;
+}
+
+#about ol, ul {
+    font-size:1.1rem;
+}
+
+#about li {
+    margin: 1rem 0;
+}
+
+#about .info {
+    position:relative;
+    float:left;
+    text-align: left;
+    margin-left:5rem;
+    width:26rem;
+}
+
+hr {
+    background-color: rgb(235, 151, 251);
+}
