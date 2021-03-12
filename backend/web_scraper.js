@@ -2,10 +2,27 @@ const axios = require('axios')
 const jsdom = require('jsdom')
 const { JSDOM } = jsdom;
 
-const stores = {"93brand.com":"scrape_93Brand", "www.amazon.com": "scrape_Amazon", "bananarepublic.gap.com":"scrape_Bananarepublic", "www.microcenter.com":"scrape_Microcenter"}
+const stores = {"93brand.com":"scrape_93Brand", "www.adidas.com": "scrape_Adidas", "www.microcenter.com":"scrape_Microcenter"}
+
+stores.scrape_93Brand = (productUrl, data) => {
+    const dom = loadDoc(data)
+    const productName = dom.title
+    const productPrice = dom.querySelector("meta[property='product:price:amount'").getAttribute('content')
+    const productImg = dom.getElementsByTagName("img")[2].src
+    const productObject = {url: productUrl, name: productName, price: productPrice, img: productImg}
+    return productObject
+}
+
+stores.scrape_Adidas = (productUrl, data) => {
+    const dom = loadDoc(data)
+    const productName = dom.title
+    const productPrice = dom.getElementsByClassName("gl-price-item")[0].textContent.substring(1)
+    const productImg = dom.getElementsByClassName("content___1wmQY")[0].querySelector("img").src
+    const productObject = {url: productUrl, name: productName, price: productPrice, img: productImg}
+    return productObject
+}
 
 stores.scrape_Microcenter = (productUrl, data) => {
-    console.log('scrape_Microcenter function')
     const dom = loadDoc(data)
     const productName = dom.title
     let productPrice = dom.getElementById('pricing').textContent.substring(1)
@@ -15,17 +32,8 @@ stores.scrape_Microcenter = (productUrl, data) => {
     return productObject
 }
 
-stores.scrape_93Brand = (productUrl, data) => {
-    console.log('scrape_93Brand function')
-    const dom = loadDoc(data)
-    const productName = dom.title
-    const productPrice = dom.querySelector("meta[property='product:price:amount'").getAttribute('content')
-    const productImg = dom.getElementsByTagName("img")[2].src
-    const productObject = {url: productUrl, name: productName, price: productPrice, img: productImg}
-    return productObject
-}
-
 const selectParse = (url_link) => {
+    console.log(url_link)
     const promise = axios.get(url_link)
     .then((res) => {
         const url = new URL(url_link)
@@ -37,7 +45,6 @@ const selectParse = (url_link) => {
         }
     })
     .catch(error=> {
-        //console.log('selectParse: ', error.message)
         return Promise.reject(error)
     })
     return promise
