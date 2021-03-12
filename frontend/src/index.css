@@ -9,6 +9,11 @@ form {
 
 #navbar {
     font-size:1.5rem;
+    margin-bottom:1.5rem;
+}
+
+.mr-auto {
+    margin:auto;
 }
 
 .link {
@@ -23,10 +28,9 @@ form {
 
 .ml4 {
     position: relative;
-    margin:auto;
-    color:rgb(235, 151, 251);
+    color:rgb(235, 151, 251)!important;
     font-weight: 900;
-    font-size: 1.4em;
+    font-size: 1.25em;
 }
 
 #productInput {
@@ -41,5 +45,43 @@ form {
 #spinner {
     width:10rem;
     height:10rem;
+}
+
+#product {
+    position:relative;
+    height: 15rem;
+    margin:auto;
+    font-size:1.25rem;
+    width:80rem;
+    margin-bottom:2rem;
+}
+
+#product img {
+    margin-right:50rem;
+}
+
+#product .name {
+    position: relative;
+    text-align: left;
+    bottom:14.5rem;
+    left:25rem;
+    color:#03c;
+    font-weight: bold;
+    max-width:45rem;
+}
+
+#product .price {
+    position:relative;
+    text-align: left;
+    bottom:14rem;
+    left:25rem;
+    color:#38ab38;
+    font-weight: bold;
+    font-size:1.25rem;
+}
+
+#about h1 {
+    font-weight: bold;
+    font-size:2rem;
 }
 
