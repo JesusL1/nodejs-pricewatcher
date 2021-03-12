@@ -5,6 +5,5 @@ PriceWatcher is a [website](https://pricewatcher-website.herokuapp.com) that all
 
 Currently the following websites are supported: 
 * [93Brand](https://93brand.com/)
-* [Amazon](https://amazon.com/)
-* [Banana Republic](https://bananarepublic.gap.com/)
+* [Adidas](https://www.adidas.com/us)
 * [Microcenter](https://www.microcenter.com/)
