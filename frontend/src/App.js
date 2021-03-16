@@ -1,8 +1,14 @@
 import React, { useState } from 'react'
+import {
+  Switch, Route, Link
+} from 'react-router-dom'
 import axios from 'axios'
-import About from './components/About'
+import Home from './components/Home'
+import Login from './components/Login'
 import SearchResult from './components/SearchResult'
+import WatchList from './components/WatchList'
 import { Button, Form, FormControl, Nav, Navbar, Spinner } from 'react-bootstrap'
+import Register from './components/Register'
 
 
 const App = () => {
@@ -59,9 +65,9 @@ const App = () => {
         <Navbar.Toggle aria-controls="basic-navbar-nav" />
         <Navbar.Collapse id="basic-navbar-nav">
         <Nav className="mr-auto">
-          <Nav.Link className="link" href="#Login">Login</Nav.Link>
-          <Nav.Link className="link" href="#account">Account</Nav.Link>
-          <Nav.Link className="link" href="#watchlist">Watchlist</Nav.Link>
+          <Nav.Link as={Link} to="/login" className="link">Login</Nav.Link>
+          <Nav.Link as={Link} to="/" className="link">Home</Nav.Link>
+          <Nav.Link as={Link} to="/watchlist" className="link">Watchlist</Nav.Link>
         </Nav>
         <Form onSubmit={search} inline>
           <FormControl className="mr-sm-2" id="productInput" type="url" value={searchTerm} onChange={handleSearchChange} onFocus={handleFocus} placeholder="https://www.example.com/product_page"/>
@@ -71,7 +77,22 @@ const App = () => {
       </Navbar>
       <LoadingSpinner/>
       <SearchResult product={{name: productName, price: productPrice, img: productImg }} success={success} /> 
-      <About/>
+
+      <Switch>
+        <Route path="/login">
+          <Login/>
+        </Route>
+        <Route path="/register">
+          <Register/>
+        </Route>
+        <Route path="/watchlist">
+          <WatchList/>
+        </Route>
+        <Route path="/">
+          <Home/>
+        </Route>
+      </Switch>
+      
     </div>
   )
 }
