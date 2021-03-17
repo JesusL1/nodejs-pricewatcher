@@ -1,13 +1,13 @@
 import React, { useState } from 'react'
 import {
-  Switch, Route, Link
+  Switch, Route, Link, Redirect, useHistory
 } from 'react-router-dom'
 import axios from 'axios'
 import Home from './components/Home'
 import Login from './components/Login'
 import SearchResult from './components/SearchResult'
 import WatchList from './components/WatchList'
-import { Button, Form, FormControl, Nav, Navbar, Spinner } from 'react-bootstrap'
+import { Alert, Button, Form, FormControl, Nav, Navbar, Spinner } from 'react-bootstrap'
 import Register from './components/Register'
 
 
@@ -16,9 +16,11 @@ const App = () => {
   const [ searchTerm, setSearchTerm ] = useState('')
   const [ loading, setLoading ] = useState(false)
   const [ success, setSuccess ] = useState(false)
+  const [ searchError, setSearchError ] = useState(false)
   const [ productName, setProductName ] = useState('')
   const [ productPrice, setProductPrice ] = useState('')
   const [ productImg, setProductImg ] = useState('')
+  const history = useHistory()
 
   const handleSearchChange = (event) => {
     setSearchTerm(event.target.value) 
@@ -30,6 +32,7 @@ const App = () => {
 
   const search = (event) => {
     event.preventDefault()
+    history.push("/")
     axios.get(`/${encodeURIComponent(searchTerm)}`)
       .then(res => {
           const p = res.data
@@ -43,6 +46,7 @@ const App = () => {
           setLoading(false)
       })
       .catch(error => {
+        setSearchError(true)
         setLoading(false)
         console.log(error)
       })
@@ -55,6 +59,17 @@ const App = () => {
         <Spinner id="spinner" animation="border" variant="dark" size="lg" />
       )
     }
+    else  {return null}
+  }
+
+  const SearchErrorAlert = () => {
+    if (searchError) {
+      return (
+        <div className="error">
+         <Alert variant="danger">There was an error. Try searching again.</Alert>
+       </div>
+     )
+    } 
     else  {return null}
   }
 
@@ -75,8 +90,8 @@ const App = () => {
         </Form>
         </Navbar.Collapse>
       </Navbar>
-      <LoadingSpinner/>
-      <SearchResult product={{name: productName, price: productPrice, img: productImg }} success={success} /> 
+
+      <SearchErrorAlert/>
 
       <Switch>
         <Route path="/login">
@@ -89,6 +104,8 @@ const App = () => {
           <WatchList/>
         </Route>
         <Route path="/">
+          <LoadingSpinner/>
+          <SearchResult product={{name: productName, price: productPrice, img: productImg }} success={success} /> 
           <Home/>
         </Route>
       </Switch>

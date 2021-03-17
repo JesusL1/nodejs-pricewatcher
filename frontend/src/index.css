@@ -45,6 +45,13 @@ form {
 #spinner {
     width:10rem;
     height:10rem;
+    margin-bottom:5rem;
+}
+
+.error {
+    
+    font-size:1.25rem;
+    margin-bottom:3rem;
 }
 
 #product {
