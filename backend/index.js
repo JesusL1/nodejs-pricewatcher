@@ -1,8 +1,11 @@
+require('dotenv').config()
 const express = require('express')
 const app = express()
 app.use(express.json())
 const cors = require('cors')
 app.use(cors())
+const usersRouter = require('./controllers/users')
+app.use('/users', usersRouter)
 const webScraper = require('./web_scraper')
 app.use(express.static('build'))
 
@@ -34,6 +37,9 @@ const errorHandler = (error, request, response, next) => {
   console.error(error.message)
   if (error.name === 'TypeError') {
     return response.status(400).send({ error: 'invalid product URL' })
+  }
+  else if (error.name === 'SequelizeValidationError') {
+    return response.status(400).json({ error: error.message })
   }
   next(error)
 }
