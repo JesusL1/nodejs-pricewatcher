@@ -3,7 +3,7 @@ const usersRouter = require('express').Router()
 const User = require('../models/user')
 
 
-usersRouter.post('/register', async (request, response, next) => {
+usersRouter.post('/', async (request, response, next) => {
 
     const body = request.body
     if (body.password === undefined || body.password.length === 0 || !body.password) {
@@ -18,7 +18,6 @@ usersRouter.post('/register', async (request, response, next) => {
 
     User.create({ 
         email: body.email,
-        userName: body.userName,
         passwordHash
     })
     .then((user) => {

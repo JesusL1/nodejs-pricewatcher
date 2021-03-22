@@ -1,10 +1,15 @@
-const { Sequelize, DataTypes } = require('sequelize');
+const { Sequelize, DataTypes } = require('sequelize')
 
-const sequelize = new Sequelize({
-  dialect: 'sqlite',
-  storage: './database.sqlite'
-});
-
+const sequelize = new Sequelize(process.env.DATABASE_URL, {
+  dialect: 'postgres',
+  protocol: 'postgres',
+  dialectOptions: {
+    ssl: {
+      require: true,
+      rejectUnauthorized: false
+    }
+  }
+})
 
 const User = sequelize.define('User', {
   email: {
@@ -15,12 +20,14 @@ const User = sequelize.define('User', {
     }
   },
   passwordHash: {
-    type: String
-  },
-  }, {
+    type: DataTypes.STRING,
+    allowNull: false
+  }
+}, {
   // Other model options go here
   timestamps: false
 });
+
 
 // remove passwordHash from being displayed in JSON output
 User.prototype.toJSON = function () {
@@ -30,7 +37,10 @@ User.prototype.toJSON = function () {
 }
 
 sequelize.sync().then(() => {
-  console.log("All models were synchronized successfully.");
+  console.log("All models were synchronized successfully.")
+  }).catch(error => {
+  console.log(error)
 })
+
 
 module.exports = User
