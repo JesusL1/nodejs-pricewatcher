@@ -15,6 +15,7 @@ const User = sequelize.define('User', {
   email: {
     type: DataTypes.STRING,
     allowNull: false, // allowNull defaults to true
+    unique: true,
     validate: {
       isEmail:true
     }
@@ -37,7 +38,7 @@ User.prototype.toJSON = function () {
 }
 
 sequelize.sync().then(() => {
-  console.log("All models were synchronized successfully.")
+  console.log("User model was synchronized successfully.")
   }).catch(error => {
   console.log(error)
 })

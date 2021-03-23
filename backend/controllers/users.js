@@ -15,17 +15,24 @@ usersRouter.post('/', async (request, response, next) => {
 
     const saltRounds = 10
     const passwordHash = await bcrypt.hash(body.password, saltRounds)
+    const user = await User.findOne({ where: { email: body.email } }) // check if a user exists under the email
 
-    User.create({ 
-        email: body.email,
-        passwordHash
-    })
-    .then((user) => {
-        response.json(user)
-    })
-    .catch(exception => {
-        next(exception)
-    })
+    if (user === null) {
+        User.create({ 
+            email: body.email,
+            passwordHash
+        })
+        .then((user) => {
+            response.json(user)
+        })
+        .catch(exception => {
+            next(exception)
+        })
+    }
+    else {
+        return response.status(401).json({ error: 'Email has been used already.' })
+    }
+    
 })
 
 module.exports = usersRouter
