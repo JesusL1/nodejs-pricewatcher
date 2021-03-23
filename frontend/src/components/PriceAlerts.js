@@ -1,20 +1,20 @@
 
-const WatchList = ({authenticated}) => {
+const PriceAlerts = ({authenticated}) => {
     if (authenticated) {
         return (
             <div>
-                Watchlist Page for logged in users
+                PriceAlerts Page for logged in users
             </div>
         )
     }
     else {
         return (
             <div>
-                Must have an account to save products to watchlist.
+                Must have an account to setup Price Alerts.
             </div>
         )
     }
         
 }
 
-export default WatchList;
+export default PriceAlerts;

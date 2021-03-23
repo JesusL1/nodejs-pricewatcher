@@ -5,7 +5,7 @@ import axios from 'axios'
 import Home from './components/Home'
 import Login from './components/Login'
 import SearchResult from './components/SearchResult'
-import WatchList from './components/WatchList'
+import PriceAlerts from './components/PriceAlerts'
 import Register from './components/Register'
 import loginService from './services/login'
 import registerService from './services/users'
@@ -111,7 +111,7 @@ const App = () => {
             <Nav.Link as={Link} to="/" onClick={handleLogout} className="link">Logout</Nav.Link>
           </>
           }
-          <Nav.Link as={Link} to="/watchlist" className="link">Watchlist</Nav.Link>
+          <Nav.Link as={Link} to="/price-alerts" className="link">Price Alerts</Nav.Link>
         </Nav>
         <Form onSubmit={search} inline>
           <FormControl className="mr-sm-2" id="productInput" type="url" value={searchTerm} onChange={handleSearchChange} onFocus={handleFocus} placeholder="https://www.example.com/product_page"/>
@@ -130,8 +130,8 @@ const App = () => {
           <Route path="/register">
             <Register authenticated={false} registerService={registerService} setUser={setUser} />
           </Route>
-          <Route path="/watchlist">
-            <WatchList authenticated={false} />
+          <Route path="/price-alerts">
+            <PriceAlerts authenticated={false} />
           </Route>
           <Route path="/">
             <LoadingSpinner/>
@@ -148,8 +148,8 @@ const App = () => {
           <Route path="/register">
             <Register authenticated={true} />
           </Route>
-          <Route path="/watchlist">
-            <WatchList authenticated={true} />
+          <Route path="/price-alerts">
+            <PriceAlerts authenticated={true} />
           </Route>
           <Route path="/">
             <LoadingSpinner/>

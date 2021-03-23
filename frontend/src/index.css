@@ -90,6 +90,12 @@ form {
     font-size:1.25rem;
 }
 
+#product .addButton {
+    position:relative;
+    bottom:14rem;
+    left:-10.3rem;
+}
+
 #about h1 {
     font-weight: bold;
     font-size:1.4rem;
