@@ -1,5 +1,6 @@
 const config = require('./utils/config')
 const express = require('express')
+const path = require('path');
 const app = express()
 const cors = require('cors')
 const usersRouter = require('./controllers/users')
@@ -12,11 +13,20 @@ app.use(cors())
 app.use(express.static('build'))
 app.use(express.json())
 
+
 app.use('/users', usersRouter)
 app.use('/login', loginRouter)
 app.use('/scrape', scrapeRouter)
 
+// catch-all to serve app with client-side routing 
+// (More Info: https://create-react-app.dev/docs/deployment#serving-apps-with-client-side-routing)
+app.use('/*', function(req, res) {
+  res.sendFile(path.join(__dirname, 'build', 'index.html'))
+})
+
+
 app.use(middleware.unknownEndpoint)
 app.use(middleware.errorHandler)
+
 
 module.exports = app
