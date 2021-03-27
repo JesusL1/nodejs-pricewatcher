@@ -4,7 +4,7 @@ import { useHistory } from 'react-router'
 import DisplayValidation from './DisplayValidation'
 
 
-const Register = ({authenticated, registerService, setUser}) => {
+const Register = ({authorized, loginService, registerService, priceAlertsService, setUser}) => {
 
     const [ email, setEmail ] = useState('')   
     const [ password, setPassword ] = useState('') 
@@ -36,27 +36,38 @@ const Register = ({authenticated, registerService, setUser}) => {
                 password: password
             }
             registerService(userObject)
-            .then(returnedUser => {
-                setUser(returnedUser)
-                history.push('/')
+            .then((returnedUser) => {
+                console.log('successfully registered', returnedUser)
+            })
+            .then(() => {
+                console.log('what', userObject)
+                loginService.login({email: userObject.email, password: userObject.password}).then((RU) => {
+                    console.log(RU)
+                    window.localStorage.setItem(
+                        'loggedPriceWatcherUser', JSON.stringify(RU)
+                    )
+                    priceAlertsService.setToken(RU.token)
+                    setUser(RU)
+                    history.push('/')
+                })
             })
             .catch(error => {
                 setValidateMessage(error.response.data.error)
             })
-        }
+        }       
         else {
             setValidateMessage('Passwords do not match.')
         } 
     }
 
-    if (authenticated) {
+    if (authorized) {
         return (
             <p>Logout before trying to create a new account.</p>
         ) 
     }
     else {
         return (
-            <div>
+            <div className="margin-t">
                 <Form id="login" onSubmit={handleRegister}>
                     <Form.Group controlId="formBasicEmail">
                         <Form.Label>Email Address</Form.Label>

@@ -4,7 +4,7 @@ import { Link, useHistory } from 'react-router-dom'
 import DisplayValidation from './DisplayValidation'
 
 
-const Login = ({loginService, setUser}) => {
+const Login = ({loginService, priceAlertsService, setUser}) => {
 
   const [ email, setEmail ] = useState('')   
   const [ password, setPassword ] = useState('')
@@ -28,8 +28,9 @@ const Login = ({loginService, setUser}) => {
         window.localStorage.setItem(
           'loggedPriceWatcherUser', JSON.stringify(returnedUser)
         )
+        priceAlertsService.setToken(returnedUser.token)
         setUser(returnedUser)
-        history.push('/')
+        history.go(0)
       })
       .catch(error => {
         console.log(error.response.data.error)
@@ -38,7 +39,7 @@ const Login = ({loginService, setUser}) => {
   }
 
   return (
-    <div>
+    <div className="margin-t">
         <Form id="login" onSubmit={handleLogin}>
           <Form.Group controlId="formBasicEmail">
             <Form.Label>Email address</Form.Label>

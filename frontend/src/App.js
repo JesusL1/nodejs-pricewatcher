@@ -9,18 +9,22 @@ import PriceAlerts from './components/PriceAlerts'
 import Register from './components/Register'
 import loginService from './services/login'
 import registerService from './services/users'
+import priceAlertsService from './services/price-alerts'
 
 
 const App = () => {
  
+  const [ authorized, setAuthorized ] = useState(false)
   const [ user, setUser ] = useState(null)
   const [ searchTerm, setSearchTerm ] = useState('')
   const [ loading, setLoading ] = useState(false)
   const [ success, setSuccess ] = useState(false)
   const [ searchError, setSearchError ] = useState(false)
+  const [ productURL, setProductURL ] = useState('')
   const [ productName, setProductName ] = useState('')
   const [ productPrice, setProductPrice ] = useState('')
   const [ productImg, setProductImg ] = useState('')
+  const [ priceAlerts, setPriceAlerts ] = useState([]) 
   const history = useHistory()
 
  
@@ -29,6 +33,11 @@ const App = () => {
     if (loggedUserJSON) {
       const user = JSON.parse(loggedUserJSON)
       setUser(user)
+      setAuthorized(true)
+      priceAlertsService.setToken(user.token)
+      priceAlertsService.getAll().then(pAlerts => 
+        setPriceAlerts(pAlerts)
+      )
     }
   }, [])
 
@@ -53,12 +62,13 @@ const App = () => {
     axios.get(`/scrape/${encodeURIComponent(searchTerm)}`)
       .then(res => {
           const p = res.data
-          console.log('Product: ', p)
-          if (p.name.length>1 && p.price && p.img.length>1 ) {
+          if (p.url.length>1 && p.name.length>1 && p.price && p.img.length>1 ) {
+            setProductURL(p.url)
             setProductName(p.name)
             setProductPrice(p.price)
             setProductImg(p.img)
             setSuccess(true)
+            setSearchTerm('')
           }
           setLoading(false)
       })
@@ -70,10 +80,20 @@ const App = () => {
       setLoading(true)
   }
 
+  const handleDelete = (pAlert) => {
+    priceAlertsService.remove(pAlert.productURL)
+    .then(() => {
+        setPriceAlerts(priceAlerts.filter(item => item.productURL !== pAlert.productURL))
+    })
+    .catch(error => {
+      console.log(error)
+    })
+  }
+
   const LoadingSpinner = () => {
     if (loading) {
       return (
-        <Spinner id="spinner" animation="border" variant="dark" size="lg" />
+        <Spinner id="spinner" className="margin-t" animation="border" variant="dark" size="lg" />
       )
     }
     else {return null}
@@ -114,7 +134,7 @@ const App = () => {
           <Nav.Link as={Link} to="/price-alerts" className="link">Price Alerts</Nav.Link>
         </Nav>
         <Form onSubmit={search} inline>
-          <FormControl className="mr-sm-2" id="productInput" type="url" value={searchTerm} onChange={handleSearchChange} onFocus={handleFocus} placeholder="https://www.example.com/product_page"/>
+          <FormControl className="mr-sm-2" id="productInput" type="url" value={searchTerm} onChange={handleSearchChange} onFocus={handleFocus} placeholder="Enter Product URL"/>
           <Button variant="outline-info" type="submit">Search</Button>
         </Form>
         </Navbar.Collapse>
@@ -125,17 +145,19 @@ const App = () => {
       {user === null && 
         <Switch>
           <Route path="/login">
-            <Login loginService={loginService} setUser={setUser} />
+            <Login loginService={loginService} priceAlertsService={priceAlertsService} setUser={setUser} />
           </Route>
           <Route path="/register">
-            <Register authenticated={false} registerService={registerService} setUser={setUser} />
+            <Register authorized={authorized}  loginService={loginService} registerService={registerService} 
+              priceAlertsService={priceAlertsService} setUser={setUser} />
           </Route>
           <Route path="/price-alerts">
-            <PriceAlerts authenticated={false} />
+            <Alert variant="warning" className="alert">You must be logged in to add products to price alerts.</Alert>
           </Route>
           <Route path="/">
             <LoadingSpinner/>
-            <SearchResult product={{name: productName, price: productPrice, img: productImg }} success={success} /> 
+            <SearchResult user={user} 
+              product={{url: productURL, name: productName, price: productPrice, img: productImg }} success={success} /> 
             <Home />
           </Route>  
         </Switch>
@@ -146,14 +168,15 @@ const App = () => {
             <Redirect to="/" />
           </Route>
           <Route path="/register">
-            <Register authenticated={true} />
+            <Register authorized={authorized} />
           </Route>
           <Route path="/price-alerts">
-            <PriceAlerts authenticated={true} />
+            <PriceAlerts authorized={authorized} priceAlerts={priceAlerts} handleDelete={handleDelete} />
           </Route>
           <Route path="/">
             <LoadingSpinner/>
-            <SearchResult product={{name: productName, price: productPrice, img: productImg }} success={success} /> 
+            <SearchResult user={user} priceAlertsService={priceAlertsService} priceAlerts={priceAlerts} 
+              setPriceAlerts={setPriceAlerts} product={{url: productURL, name: productName, price: productPrice, img: productImg }} success={success} /> 
             <Home />
           </Route>
         </Switch>   

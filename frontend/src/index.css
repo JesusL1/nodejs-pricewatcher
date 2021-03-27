@@ -7,9 +7,12 @@ form {
     display: inline-block;
 }
 
+.margin-t {
+    margin-top:1.5rem;
+}
+
 #navbar {
     font-size:1.28rem;
-    margin-bottom:1.5rem;
 }
 
 .mr-auto {
@@ -34,7 +37,10 @@ form {
 }
 
 #userEmail {
+    position: relative;
     font-size: 1.1em;
+    margin-left:-5rem;
+    padding-right:5rem;
 }
 
 #productInput {
@@ -42,19 +48,19 @@ form {
     font-size:0.75rem;
 }
 
-#productInput:placeholder-shown {
-    font-style:italic;
-}
-
 #spinner {
-    width:10rem;
-    height:10rem;
+    width:8rem;
+    height:8rem;
     margin-bottom:5rem;
 }
 
 .error {
     font-size:1.25rem;
     margin-bottom:3rem;
+}
+
+.alert {
+    font-size:1.25rem;
 }
 
 #product {
@@ -144,4 +150,36 @@ hr {
     display:block;
     margin-top: 1.75rem;
     font-size:1rem;
+}
+
+#priceAlerts {
+    font-size:1.25rem;
+}
+
+#priceAlerts img {
+    position:relative;
+    left:-2rem;
+    /* border:1px solid; */
+    top:0.2rem;
+}
+
+.productColumn {
+    position:relative;
+    text-align: left;
+    left: 2rem;
+}
+
+.pAlertName  { 
+    position:relative;
+    text-align: left;
+    width:40rem;
+    top:-7rem;
+    right:-8rem;
+    height:0.15rem;
+}
+
+.priceColumn {
+    position:relative;
+    font-weight:bold;
+    color:#38ab38;
 }
