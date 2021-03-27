@@ -1,14 +1,14 @@
 const webScraper = require('../utils/web_scraper')
 const scrapeRouter = require('express').Router()
 
-scrapeRouter.get('/:url', (request, response) => {
+scrapeRouter.get('/:url', (request, response, next) => {
     const product = webScraper.selectParse(request.params.url)
         .then(product => {
             console.log('Product: ', product)
             response.json(product)
         })
         .catch(error => {
-            console.log('app: ', error.message)
+            next(error)
             return response.status(400).json({ error: 'invalid product URL' })
         })
 })

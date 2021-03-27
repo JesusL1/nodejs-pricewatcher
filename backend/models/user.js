@@ -12,7 +12,12 @@ const sequelize = new Sequelize(process.env.DATABASE_URL, {
 })
 
 const User = sequelize.define('User', {
+  id: {
+    type: DataTypes.INTEGER,
+    autoIncrement:true
+  },
   email: {
+    primaryKey:true,
     type: DataTypes.STRING,
     allowNull: false, // allowNull defaults to true
     unique: true,
@@ -30,6 +35,7 @@ const User = sequelize.define('User', {
 });
 
 
+
 // remove passwordHash from being displayed in JSON output
 User.prototype.toJSON = function () {
   const values = Object.assign({}, this.get())
@@ -37,11 +43,6 @@ User.prototype.toJSON = function () {
   return values
 }
 
-sequelize.sync().then(() => {
-  console.log("User model was synchronized successfully.")
-  }).catch(error => {
-  console.log(error)
-})
 
 
 module.exports = User
