@@ -152,6 +152,7 @@ const App = () => {
               priceAlertsService={priceAlertsService} setUser={setUser} />
           </Route>
           <Route path="/price-alerts">
+            <PriceAlerts authorized={authorized} />
             <Alert variant="warning" className="alert">You must be logged in to add products to price alerts.</Alert>
           </Route>
           <Route path="/">

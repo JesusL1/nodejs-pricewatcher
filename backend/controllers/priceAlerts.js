@@ -3,7 +3,7 @@ const priceAlertsRouter = require('express').Router()
 const PriceAlert = require('../models/priceAlert')
 
 
-priceAlertsRouter.get('/', async (request, response, next) => {
+priceAlertsRouter.get('/all', async (request, response, next) => {
     try {
         const decodedToken = jwt.verify(request.token, process.env.SECRET)
         const priceAlerts = await PriceAlert.findAll({
