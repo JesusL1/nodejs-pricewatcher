@@ -8,6 +8,16 @@ const priceAlertsRouter = require('./controllers/priceAlerts')
 const loginRouter = require('./controllers/login')
 const scrapeRouter = require('./controllers/scrape')
 const middleware = require('./utils/middleware')
+const logger = require('./utils/logger')
+const { sequelize } = require('./utils/config')
+
+
+sequelize.sync().then(() => {
+  logger.info("All Sequelize models were synchronized successfully.");
+})
+.catch(error=> {
+  logger.error(error)
+})
 
 
 app.use(cors())

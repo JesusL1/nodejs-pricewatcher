@@ -1,16 +1,6 @@
-const { Sequelize, DataTypes } = require('sequelize');
+const { DataTypes } = require('sequelize');
+const { sequelize } = require('../utils/config')
 const User = require('../models/user')
-
-const sequelize = new Sequelize(process.env.DATABASE_URL, {
-    dialect: 'postgres',
-    protocol: 'postgres',
-    dialectOptions: {
-      ssl: {
-        require: true,
-        rejectUnauthorized: false
-      }
-    }
-})
 
 
 const PriceAlert = sequelize.define('PriceAlert', {
@@ -47,16 +37,6 @@ PriceAlert.belongsTo(User, {
     allowNull: false
   }
 })
-
-User.sync().then(() => {
-  console.log('User model synchronized successfully.')
-})
-
-
-sequelize.sync().then(() => {
-  console.log("All Sequelize models were synchronized successfully.");
-})
-
 
 
 module.exports = PriceAlert
